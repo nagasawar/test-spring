@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>ユーザ検索</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h2>ユーザ検索</h2>
+
+    <!--/* 検索条件 */-->
+    <div>
+        ログインID： <input type="text" /><br />
+        ユーザ名： <input type="text" /><br />
+        <input type="submit" value="検索" />
+    </div>
+
+    <!--/* 検索結果一覧 */-->
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ログインID</th>
+                    <th>ユーザ名</th>
+                    <th>権限</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>山田　太郎</td>
+                    <td>管理者</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
