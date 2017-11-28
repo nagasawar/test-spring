@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!---------------------------------------------------------------
+-- ユーザマッピングファイル
+----------------------------------------------------------------->
+<mapper namespace="testspring.mapper.UserMapper">
+
+    <!--******************************************************
+        * ユーザを全件取得する
+        ******************************************************-->
+    <select id="findAll" resultType="testspring.domain.User">
+        SELECT
+            user_id      AS userId,
+            password,
+            user_name    AS userName,
+            user_role_id AS userRoleId
+        FROM
+            users
+    </select>
+
+    <!--******************************************************
+        * 検索条件で、ユーザリストを取得する
+        ******************************************************-->
+    <select id="findByCriteria" resultType="testspring.domain.User">
+        SELECT
+            user_id      AS userId,
+            password,
+            user_name    AS userName,
+            user_role_id AS userRoleId
+        FROM
+            users
+        <where>
+            <if test="userId != null">
+                AND user_id like #{userId} || '%'
+            </if>
+            <if test="userName != null">
+                AND user_name like '%' || #{userName} || '%'
+            </if>
+        </where>
+    </select>
+
+    <!--******************************************************
+        * ユーザを1件取得する
+        ******************************************************-->
+    <select id="getOne" resultType="testspring.domain.User">
+        SELECT
+            user_id      AS userId,
+            password,
+            user_name    AS userName,
+            user_role_id AS userRoleId
+        FROM
+            users
+        WHERE
+            user_id = #{userId}
+    </select>
+
+</mapper>

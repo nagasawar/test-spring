@@ -1,9 +1,16 @@
 package testspring.app.user;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import testspring.domain.User;
+import testspring.mapper.UserCriteria;
+import testspring.mapper.UserMapper;
 
 /**
  * ユーザ
@@ -18,12 +25,45 @@ public class UserController {
         return form;
     }
 
+    @Autowired
+    UserMapper userMapper;
+
     /**
      * ユーザ一覧[表示]
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
     String userList() {
+
+        // ユーザ単一
+        User user = userMapper.getOne("10001");
+        System.out.println("userId: " + user.getUserId());
+        System.out.println("password: " + user.getPassword());
+        System.out.println("userName: " + user.getUserName());
+        System.out.println("userRoleId: " + user.getUserRoleId());
+
+        // ユーザ全件
+        List<User> users = userMapper.findAll();
+        for (User u : users) {
+            System.out.println("@userId: " + u.getUserId());
+            System.out.println("@password: " + u.getPassword());
+            System.out.println("@userName: " + u.getUserName());
+            System.out.println("@userRoleId: " + u.getUserRoleId());
+        }
+
+        // ユーザ検索条件
+        UserCriteria criteria = new UserCriteria();
+        criteria.setUserId("10002");
+        //criteria.setUserName("山田");
+
+        List<User> users2 = userMapper.findByCriteria(criteria);
+        for (User u : users2) {
+            System.out.println("#userId: " + u.getUserId());
+            System.out.println("#password: " + u.getPassword());
+            System.out.println("#userName: " + u.getUserName());
+            System.out.println("#userRoleId: " + u.getUserRoleId());
+        }
+
         return "user/list";
     }
 
