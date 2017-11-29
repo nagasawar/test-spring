@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,37 +33,19 @@ public class AccountController {
      * アカウント一覧[表示]
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
-    String accountList() {
+    @RequestMapping()
+    String list(AccountForm form, Model model) {
 
-        // アカウント単一
-        Account account = accountMapper.getOne("10001");
-        System.out.println("accountId: " + account.getAccountId());
-        System.out.println("password: " + account.getPassword());
-        System.out.println("accountName: " + account.getAccountName());
-        System.out.println("accountRoleId: " + account.getAccountRoleId());
-
-        // アカウント全件
-        List<Account> accounts = accountMapper.findAll();
-        for (Account u : accounts) {
-            System.out.println("@accountId: " + u.getAccountId());
-            System.out.println("@password: " + u.getPassword());
-            System.out.println("@accountName: " + u.getAccountName());
-            System.out.println("@accountRoleId: " + u.getAccountRoleId());
-        }
-
-        // アカウント検索条件
+        // 検索条件セット
         AccountCriteria criteria = new AccountCriteria();
-        criteria.setAccountId("10002");
-        //criteria.setAccountName("山田");
+        criteria.setAccountId(form.getAccountId());
+        criteria.setAccountName(form.getAccountName());
 
-        List<Account> accounts2 = accountMapper.findByCriteria(criteria);
-        for (Account u : accounts2) {
-            System.out.println("#accountId: " + u.getAccountId());
-            System.out.println("#password: " + u.getPassword());
-            System.out.println("#accountName: " + u.getAccountName());
-            System.out.println("#accountRoleId: " + u.getAccountRoleId());
-        }
+        // 検索実行
+        List<Account> accounts = accountMapper.findByCriteria(criteria);
+
+        // 画面へセット
+        model.addAttribute("accounts", accounts);
 
         return "account/list";
     }

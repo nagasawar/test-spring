@@ -9,12 +9,16 @@
 <div layout:fragment="content">
     <h2>アカウント検索</h2>
 
+    <a th:href="@{'/accounts/addNew'}">新規登録</a>
+
     <!--/* 検索条件 */-->
-    <div>
-        ログインID： <input type="text" /><br />
-        アカウント名： <input type="text" /><br />
-        <input type="submit" value="検索" />
-    </div>
+    <form action="/accounts" th:action="@{/accounts}" th:object="${accountForm}" method="post">
+        <div>
+            <label>ログインID： <input type="text" name="accountId" th:field="*{accountId}" /></label><br />
+            <label>アカウント名： <input type="text" name="accountName" th:field="*{accountName}" /></label><br />
+            <input type="submit" value="検索" />
+        </div>
+    </form>
 
     <!--/* 検索結果一覧 */-->
     <div>
@@ -27,14 +31,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>山田　太郎</td>
-                    <td>管理者</td>
+                <tr th:each="account: ${accounts}">
+                    <td th:text="${account.accountId}">1</td>
+                    <td th:text="${account.accountName}">山田　太郎</td>
+                    <td th:text="${account.accountRoleId}">管理者</td>
                 </tr>
             </tbody>
         </table>
     </div>
+
 </div>
 
 </body>
