@@ -2,9 +2,12 @@ package testspring.app.account;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,8 +67,22 @@ public class AccountController {
      * @return
      */
     @RequestMapping(path="create", method = RequestMethod.POST)
-    String create() {
-        return "account/addNew";
+    String create(@Valid AccountForm form, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "account/addNew";
+        }
+
+        return "redirect:/accounts/create?complete";
+    }
+
+    /**
+     * 新規作成[完了]
+     * @return
+     */
+    @RequestMapping(path="create", method = RequestMethod.GET, params = "complete")
+    String createComplete() {
+        return "/account/createComplete";
     }
 
     /**
