@@ -9,7 +9,7 @@ public class TestSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TestSpringApplication.class, args);
 		
-		// テスト2
+		// テスト3
 		String s = "test!!";
 		System.out.println(s);
 	}
