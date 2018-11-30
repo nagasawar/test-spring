@@ -7,7 +7,18 @@
 <body>
 
 <div layout:fragment="content">
-    アカウント詳細の内容
+
+    <table>
+        <tr>
+            <th>アカウントID</th>
+            <td th:text="${account.accountId}"></td>
+        </tr>
+        <tr>
+            <th>アカウント名</th>
+            <td th:text="${account.accountName}"></td>
+        </tr>
+    </table>
+
 </div>
 
 </body>

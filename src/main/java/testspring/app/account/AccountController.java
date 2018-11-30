@@ -4,11 +4,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -73,6 +76,12 @@ public class AccountController {
             return "account/addNew";
         }
 
+        Account account = new Account();
+        BeanUtils.copyProperties(form, account);
+        account.setAccountRoleId(1);
+
+        accountMapper.create(account);
+
         return "redirect:/accounts/create?complete";
     }
 
@@ -89,8 +98,18 @@ public class AccountController {
      * 詳細[表示]
      * @return
      */
-    @RequestMapping(path="{accountId}/details", method = RequestMethod.GET)
-    String details() {
+    @RequestMapping(path="{accountId}", method = RequestMethod.GET)
+    String details(@PathVariable("accountId") String accountId, Model model) {
+
+        Account account = accountMapper.getOne(accountId);
+
+        if (StringUtils.isEmpty(account)) {
+            model.addAttribute("errorMessage", "対象のアカウントが存在しません");
+            return "error/berror";
+        }
+
+        model.addAttribute("account", account);
+
         return "account/details";
     }
 
@@ -99,7 +118,19 @@ public class AccountController {
      * @return
      */
     @RequestMapping(path="{accountId}/edit", method = RequestMethod.GET)
-    String edit() {
+    String edit(@PathVariable("accountId") String accountId, Model model) {
+
+        Account account = accountMapper.getOne(accountId);
+
+        if (StringUtils.isEmpty(account)) {
+            model.addAttribute("errorMessage", "対象のアカウントが存在しません");
+            return "error/berror";
+        }
+
+        AccountForm form = new AccountForm();
+        BeanUtils.copyProperties(account, form);
+        model.addAttribute(form);
+
         return "account/edit";
     }
 
@@ -108,16 +139,37 @@ public class AccountController {
      * @return
      */
     @RequestMapping(path="{accountId}/update", method = RequestMethod.POST)
-    String update() {
-        return "account/edit";
+    String update(@Valid AccountForm form, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "account/edit";
+        }
+
+        Account account = new Account();
+        BeanUtils.copyProperties(form, account);
+        account.setAccountRoleId(1);
+
+        accountMapper.update(account);
+
+        return "redirect:";
     }
 
     /**
      * 削除[実行]
      * @return
      */
-    @RequestMapping(path="{accountId}/delete", method = RequestMethod.POST)
-    String delete() {
-        return "account/edit";
+    @RequestMapping(path="{accountId}/delete", method = RequestMethod.GET)
+    String delete(@PathVariable("accountId") String accountId, Model model) {
+
+        Account account = accountMapper.getOne(accountId);
+
+        if (StringUtils.isEmpty(account)) {
+            model.addAttribute("errorMessage", "対象のアカウントが存在しません");
+            return "error/berror";
+        }
+
+        accountMapper.delete(accountId);
+
+        return "redirect:/accounts";
     }
 }

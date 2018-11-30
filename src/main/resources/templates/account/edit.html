@@ -7,7 +7,19 @@
 <body>
 
 <div layout:fragment="content">
-    アカウント編集の内容
+    <h2>アカウント編集</h2>
+
+    <form action="/accounts/update" th:action="@{'/accounts/' + ${accountId} + '/update'}" th:object="${accountForm}" method="post">
+
+        <div>
+            <!--/* 共通入力項目 */-->
+            <div th:replace="account/parts/items"></div>
+
+            <!--/* ボタン部分 */-->
+            <input type="submit" value="更新" />
+        </div>
+
+    </form>
 </div>
 
 </body>

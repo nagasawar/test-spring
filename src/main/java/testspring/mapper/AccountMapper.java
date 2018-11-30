@@ -26,4 +26,19 @@ public interface AccountMapper {
      * アカウントを1件取得する
      */
     Account getOne(String accountId);
+
+    /**
+     * アカウントを作成する
+     */
+    int create(Account account);
+
+    /**
+     * アカウントを更新する
+     */
+    int update(Account account);
+
+    /**
+     * アカウントを1件削除する
+     */
+    int delete(String accountId);
 }

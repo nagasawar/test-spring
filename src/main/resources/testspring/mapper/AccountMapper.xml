@@ -54,4 +54,41 @@
             account_id = #{accountId}
     </select>
 
+    <!--******************************************************
+        * アカウントを作成する
+        ******************************************************-->
+    <insert id="create" parameterType="testspring.domain.Account">
+        INSERT INTO accounts (
+            account_id,
+            password,
+            account_name,
+            account_role_id
+        )
+        VALUES (
+            #{accountId},
+            #{password},
+            #{accountName},
+            #{accountRoleId}
+        )
+    </insert>
+
+    <!--******************************************************
+        * アカウントを更新する
+        ******************************************************-->
+    <update id="update" parameterType="testspring.domain.Account">
+        UPDATE accounts SET
+            password=#{password}, <!-- なぜかpasswordはイコールの間を空けるとエラーになる -->
+            account_name    = #{accountName},
+            account_role_id = #{accountRoleId}
+        WHERE
+            account_id = #{accountId}
+    </update>
+
+    <!--******************************************************
+        * アカウントを1件削除する
+        ******************************************************-->
+    <delete id="delete" parameterType="string">
+        DELETE FROM accounts WHERE account_id = #{accountId}
+    </delete>
+
 </mapper>

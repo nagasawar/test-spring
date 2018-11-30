@@ -1,0 +1,17 @@
+<!--/* アカウントID */-->
+<div th:classappend="${#fields.hasErrors('accountId')}? 'has-error'">
+    <label>アカウントID(必須)： <input type="text" name="accountId" th:field="*{accountId}" /></label>
+    <span th:if="${#fields.hasErrors('accountId')}" th:errors="*{accountId}">error!</span>
+</div>
+
+<!--/* パスワード */-->
+<div th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+    <label>パスワード(必須)： <input type="text" name="password" th:field="*{password}" /></label>
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">error!</span>
+</div>
+
+<!--/* アカウント名 */-->
+<div th:classappend="${#fields.hasErrors('accountName')}? 'has-error'">
+    <label>アカウント名(必須)： <input type="text" name="accountName" th:field="*{accountName}" /></label>
+    <span th:if="${#fields.hasErrors('accountName')}" th:errors="*{accountName}">error!</span>
+</div>
